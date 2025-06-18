@@ -1,1 +1,13 @@
+{
+  "name": "orbit-ai-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node api/ask-ai.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "type": "module"
+}
 
