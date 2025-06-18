@@ -1,5 +1,3 @@
-// api/ask-ai.js
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Only POST requests allowed' });
@@ -36,10 +34,21 @@ export default async function handler(req, res) {
 
     const data = await openaiResponse.json();
 
-    const result = data.choices[0]?.message?.content || 'No response';
+    // Debug logging (optional, remove before production)
+    console.log('OpenAI response:', JSON.stringify(data, null, 2));
+
+    if (!data.choices || !data.choices.length) {
+      return res.status(500).json({ message: 'Invalid OpenAI response', data });
+    }
+
+    const result = data.choices[0].message.content;
     res.status(200).json({ result });
+
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error', error: error.message });
+    console.error('Server Error:', error);
+    res.status(500).json({
+      message: 'Server error',
+      error: error.message,
+    });
   }
 }
